@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: Selenium MCP Server
+  version: 1.0.0
+servers:
+  - url: http://localhost:5050
+paths:
+  /run_task:
+    post:
+      summary: Run a Selenium automation task
+      description: Sends a plain English instruction, generates & executes Selenium script, retries on failure, and returns result + final working script if success.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: string
+                  description: The plain English task instruction
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [success, failed]
+                  job_id:
+                    type: string
+                  stdout:
+                    type: string
+                  stderr:
+                    type: string
+                  generated_script:
+                    type: string
+                  screenshot_ok_b64:
+                    type: string
+                    nullable: true
+                  screenshot_err_b64:
+                    type: string
+                    nullable: true
